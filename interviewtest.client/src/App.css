@@ -1,0 +1,122 @@
+/* App.css */
+
+body {
+    display: flex;
+    justify-content: center;
+}
+
+/* Loading overlay */
+.app-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    color: white;
+    font-size: 24px;
+}
+
+/* List table*/
+.app-table {
+    border-collapse: collapse;
+    width: 800px;
+    margin: 0 auto;
+}
+
+    .app-table th,
+    .app-table td {
+        border: 1px solid #ccc;
+        padding: 8px;
+        text-align: left;
+    }
+
+/* Number inputs */
+.app-number-input {
+    width: 80px;
+}
+
+/* Buttons */
+.app-btn {
+    padding: 6px 10px;
+    margin-right: 6px;
+    border-radius: 4px;
+    border: 1px solid #999;
+    background: #f5f5f5;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+    .app-btn:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+    }
+
+
+.app-btn-primary {
+    background: #007bff;
+    color: #fff;
+    border-color: #007bff;
+}
+
+.app-btn-danger {
+    background: #e74c3c;
+    color: #fff;
+    border-color: #c43b2a;
+}
+
+/* Button container */
+.app-controls {
+    margin-bottom: 10px;
+}
+
+h2 {
+    text-align: center;
+    font-size: 30px;
+}
+
+
+h3 {
+    margin-top: 0;
+}
+
+/* Add form*/
+.app-add-form {
+    margin: 16px 0;
+    border: 1px solid #ccc;
+    padding: 16px;
+    border-radius: 8px;
+}
+
+/* Add form inputs*/
+.app-add-inputs {
+    margin-top:8px;
+}
+
+/* Add form buttons container*/
+.app-add-btn-container {
+    margin-top: 12px;
+}
+
+/* Sum table*/
+.app-sum-table {
+    border-collapse: collapse;
+    margin-top: 8px;
+}
+
+    .app-sum-table th,
+    .app-sum-table td {
+        border: 1px solid #ccc;
+        padding: 8px;
+    }
+
+/* back button*/
+.app-back-btn {
+    margin-top: 12px;
+}
+
+
