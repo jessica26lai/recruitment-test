@@ -18,6 +18,7 @@ function App() {
 
     const [sumABC, setSumABC] = useState<Employee[]>([]); 
 
+
     useEffect(() => {
         //checkConnectivity();
         fetchEmployees();
@@ -30,11 +31,11 @@ function App() {
         try {
             setNewName(newName.trim());
 
-            //validate the new name
-            if (newName.length > 0) {
-                if (!/^[A-Z][a-zA-Z]*$/.test(newName))
-                    throw Error("The name should contains only alphabetic letters and the first letter should be an uppercase letter");
+            const { isValid, errorMsg } = validateName(newName);
+            if (!isValid) {
+                throw Error(errorMsg);
             }
+
             const res = await fetch('/api/list/add', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -54,6 +55,24 @@ function App() {
         }
     };
 
+    const validateName = (newNameStr: string): { isValid: boolean; errorMsg: string } => {
+        //validate the new name
+        if (newNameStr.length > 50) {
+            return { isValid: false, errorMsg: "The name should not exceed 50 characters" };
+        }
+
+        if (newNameStr.length > 0) {
+            if (!/^[A-Z][a-zA-Z]*$/.test(newNameStr)){
+                return {
+                    isValid: false,
+                    errorMsg: "The name should contain only alphabetic letters and start with an uppercase letter"
+                };
+            }
+        }
+
+        return { isValid: true, errorMsg: "" };
+    };
+
     const startEdit = (idx: number) => {
         setEditingIndex(idx);
         setEditName(employees[idx].name);
@@ -68,7 +87,13 @@ function App() {
         if (editingIndex === null) return;
 
         const original = employees[editingIndex];
+
         try {
+            const { isValid, errorMsg } = validateName(editName);
+            if (!isValid) {
+                throw Error(errorMsg);
+            }
+
             const res = await fetch(`/api/list/update/${encodeURIComponent(original.name)}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
