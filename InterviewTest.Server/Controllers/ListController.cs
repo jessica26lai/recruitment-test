@@ -23,7 +23,7 @@ namespace InterviewTest.Server.Controllers
 
                 // Check if employee with the same name already exists
                 var checkCmd = connection.CreateCommand();
-                checkCmd.CommandText = @"SELECT COUNT(*) FROM Employees WHERE Name = @name";
+                checkCmd.CommandText = @"SELECT COUNT(*) FROM Employees WHERE LOWER(Name) = LOWER(@name);";
                 checkCmd.Parameters.AddWithValue("@name", employee.Name);
 
                 var exists = Convert.ToInt32(checkCmd.ExecuteScalar());

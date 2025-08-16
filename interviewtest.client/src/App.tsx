@@ -25,6 +25,35 @@ function App() {
 
     const [loading, setLoading] = useState(false);
 
+    const submitAdd = async () => {
+        setLoading(true);
+        try {
+            setNewName(newName.trim());
+
+            //validate the new name
+            if (newName.length > 0) {
+                if (!/^[A-Z][a-zA-Z]*$/.test(newName))
+                    throw Error("The name should contains only alphabetic letters and the first letter should be an uppercase letter");
+            }
+            const res = await fetch('/api/list/add', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ name: newName, value: newValue }),
+            });
+            if (!res.ok) throw new Error(await res.text());
+            await fetchEmployees();
+            alert(`Employee "${newName}" added successfully`);
+            setNewName('');
+            setNewValue(0);
+            setShowAddForm(false);
+        } catch (err) {
+            console.error(err);
+            alert(`Failed to add employee: \n${err}`);
+        } finally {
+            setLoading(false);
+        }
+    };
+
     const startEdit = (idx: number) => {
         setEditingIndex(idx);
         setEditName(employees[idx].name);
@@ -194,27 +223,7 @@ function App() {
                             <div className="app-add-btn-container">
                                 <button
                                     className="app-btn app-btn-primary"
-                                    onClick={async () => {
-                                        setLoading(true);
-                                        try {
-                                            const res = await fetch('/api/list/add', {
-                                                method: 'POST',
-                                                headers: { 'Content-Type': 'application/json' },
-                                                body: JSON.stringify({ name: newName.trim(), value: newValue }),
-                                            });
-                                            if (!res.ok) throw new Error(await res.text());
-                                            await fetchEmployees();
-                                            alert(`Employee "${newName}" added successfully`);
-                                            setNewName('');
-                                            setNewValue(0);
-                                            setShowAddForm(false);
-                                        } catch (err) {
-                                            console.error(err);
-                                            alert(`Failed to add employee: \n${err}`);
-                                        } finally {
-                                            setLoading(false);
-                                        }
-                                    }}
+                                    onClick={() => submitAdd()}
                                     disabled={loading || !newName.trim()}
                                 >
                                     Add
